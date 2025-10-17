@@ -10,13 +10,14 @@ class LightNovel extends Model
     use HasFactory;
 
     // La table suit la convention 'light_novels', donc pas besoin de protected $table.
-    // Remarque : la colonne 'Contenu' dans le dump est avec un C majuscule, on la garde.
+    // Remarque : la colonne 'Contenu' dans le dump est avec un C majusacule, on la garde.
     protected $fillable = [
         'titre',
         'auteur',
         'statut',
         'chapitres',
         'Contenu',
+        'photo'
     ];
 
     /**

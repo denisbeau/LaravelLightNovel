@@ -62,6 +62,12 @@
                 @error('Contenu') <div class="error">{{ $message }}</div> @enderror
             </div>
 
+            <div>
+                <label for="photo">Photo</label><br>
+                <input type="file" id="photo" name="photo" accept="image/*">
+                @error('photo') <div class="error">{{ $message }}</div> @enderror
+            </div>
+
             <div style="margin-top:0.8rem;">
                 <button type="submit">Enregistrer</button>
                 <a href="{{ route('light_novels.index') }}" style="margin-left:0.6rem;">Annuler</a>
