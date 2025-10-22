@@ -7,85 +7,45 @@ use App\Models\LightNovel;
 
 class LightNovelController extends Controller
 {
+    // Liste simple (index)
     public function index()
     {
-        $lightNovels = LightNovel::all();
+        $lightNovels = LightNovel::orderBy('title')->get();
         return view('light_novels.index', compact('lightNovels'));
     }
 
-    public function create()
+    // Affichage d'un élément (show)
+    public function show($id)
     {
-        return view('light_novels.create');
-    }
+        $lightNovel = LightNovel::find($id);
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'titre' => 'required|string|max:255',
-            'auteur' => 'required|string|max:255',
-            'statut' => 'nullable|string|max:50',
-            'chapitres' => 'nullable|integer|min:0',
-            'Contenu' => 'nullable|string',
-            'photo' => 'nullable|image|max:2048',
-        ]);
-
-        if ($request->hasFile('photo')) {
-            $validated['photo'] = $request->file('photo')->store('photos', 'public');
+        if (!$lightNovel) {
+            return redirect()->route('light_novels.index')->with('error', 'Light novel introuvable.');
         }
 
-        LightNovel::create($validated);
-
-        return redirect()->route('light_novels.index')
-            ->with('success', 'Light novel créé avec succès !');
+        return view('light_novels.show', compact('lightNovel'));
     }
 
-public function show($id)
+    // Méthode autocomplete
+    public function autocomplete(Request $request)
 {
-    $lightNovel = LightNovel::find($id);
+    $term = $request->get('term', '');
+    $results = [];
 
-    if (!$lightNovel) {
-        return redirect()->route('light_novels.index')->with('error', 'Light novel introuvable.');
-    }
+    if ($term !== '') {
+        $items = LightNovel::where('titre', 'LIKE', '%' . $term . '%') // <-- colonne 'titre'
+            ->orderBy('titre')
+            ->limit(10)
+            ->get();
 
-    return view('light_novels.show', compact('lightNovel'));
-}
-
-
-    public function edit(string $id)
-    {
-        $lightNovel = LightNovel::findOrFail($id);
-        return view('light_novels.edit', compact('lightNovel'));
-    }
-
-    public function update(Request $request, string $id)
-    {
-        $lightNovel = LightNovel::findOrFail($id);
-
-        $validated = $request->validate([
-            'titre' => 'required|string|max:255',
-            'auteur' => 'required|string|max:255',
-            'statut' => 'nullable|string|max:50',
-            'chapitres' => 'nullable|integer|min:0',
-            'Contenu' => 'nullable|string',
-            'photo' => 'nullable|image|max:2048',
-        ]);
-
-        if ($request->hasFile('photo')) {
-            $validated['photo'] = $request->file('photo')->store('photos', 'public');
+        foreach ($items as $item) {
+            $results[] = [
+                'id'    => $item->id,
+                'label' => $item->titre,   // on renvoie 'titre'
+                'value' => $item->titre,
+            ];
         }
-
-        $lightNovel->update($validated);
-
-        return redirect()->route('light_novels.show', $lightNovel->id)
-            ->with('success', 'Light novel mis à jour avec succès !');
     }
-
-    public function destroy(string $id)
-    {
-        $lightNovel = LightNovel::findOrFail($id);
-        $lightNovel->delete();
-
-        return redirect()->route('light_novels.index')
-            ->with('success', 'Light novel supprimé avec succès !');
+        return response()->json($results);
     }
 }
