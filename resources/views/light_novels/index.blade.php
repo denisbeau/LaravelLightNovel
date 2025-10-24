@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Liste des Light Novels')
+@section('title', __('property.list_title'))
 
 @section('content')
-<h1>Liste des Light Novels</h1>
+<h1>{{ __('property.list_title') }}</h1>
 
 <div style="margin-bottom: 1rem;">
-  <input type="text" id="searchNovel" placeholder="Rechercher un titre ou un auteur..." 
+  <input type="text" id="searchNovel" placeholder="{{ __('property.search_placeholder') }}" 
          style="padding:0.5rem;width:320px;border:1px solid #ccc;border-radius:5px;">
 </div>
 
@@ -15,28 +15,20 @@
 @endphp
 
 @if($list->isEmpty())
-  <p>Aucun light novel trouvé.</p>
-  <p><a href="{{ route('light_novels.create') }}">Ajouter un nouveau light novel</a></p>
+  <p>{{ __('property.no_result') }}</p>
+  <p><a href="{{ route('light_novels.create') }}">{{ __('property.add_new') }}</a></p>
 @else
-  <table style="
-      width:100%;
-      border-collapse:collapse;
-      font-family:'Segoe UI',sans-serif;
-      border:1px solid #ddd;
-      border-radius:8px;
-      overflow:hidden;
-      box-shadow:0 2px 8px rgba(0,0,0,0.05);
-  ">
+  <table style="width:100%;border-collapse:collapse;font-family:'Segoe UI',sans-serif;border:1px solid #ddd;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
       <thead style="background:#f8f9fa;">
           <tr style="text-align:left;">
-              <th style="padding:10px;border-bottom:2px solid #e3e3e3;">ID</th>
-              <th style="padding:10px;border-bottom:2px solid #e3e3e3;">Titre</th>
-              <th style="padding:10px;border-bottom:2px solid #e3e3e3;">Auteur</th>
-              <th style="padding:10px;border-bottom:2px solid #e3e3e3;">Statut</th>
-              <th style="padding:10px;border-bottom:2px solid #e3e3e3;">Chapitres</th>
-              <th style="padding:10px;border-bottom:2px solid #e3e3e3;">Contenu</th>
-              <th style="padding:10px;border-bottom:2px solid #e3e3e3;">Photo</th>
-              <th style="padding:10px;border-bottom:2px solid #e3e3e3;">Actions</th>
+              <th style="padding:10px;">ID</th>
+              <th style="padding:10px;">{{ __('property.title') }}</th>
+              <th style="padding:10px;">{{ __('property.author') }}</th>
+              <th style="padding:10px;">{{ __('property.status') }}</th>
+              <th style="padding:10px;">{{ __('property.chapters') }}</th>
+              <th style="padding:10px;">{{ __('property.content') }}</th>
+              <th style="padding:10px;">{{ __('property.photo') }}</th>
+              <th style="padding:10px;">{{ __('property.actions') }}</th>
           </tr>
       </thead>
       <tbody>
@@ -53,25 +45,20 @@
 
                   <td style="padding:10px;">
                       @if($n->photo)
-                          <img src="{{ asset('images/'.$n->photo) }}" 
-                               alt="Image du light novel" 
-                               width="80" style="border-radius:6px;">
+                          <img src="{{ asset('images/'.$n->photo) }}" alt="Image du light novel" width="80" style="border-radius:6px;">
                       @else
-                          <em style="color:#999;">Aucune</em>
+                          <em style="color:#999;">{{ __('property.no') }}</em>
                       @endif
                   </td>
 
-                  {{-- ⚙️ Actions --}}
                   <td style="padding:10px;">
-                      <a href="{{ route('light_novels.show', $n->id) }}" style="color:#007bff;text-decoration:none;">Voir</a> |
-                      <a href="{{ route('light_novels.edit', $n->id) }}" style="color:#28a745;text-decoration:none;">Modifier</a> |
-                      <form action="{{ route('light_novels.destroy', $n->id) }}" 
-                            method="POST" style="display:inline">
+                      <a href="{{ route('light_novels.show', $n->id) }}">{{ __('property.view') }}</a> |
+                      <a href="{{ route('light_novels.edit', $n->id) }}">{{ __('property.edit') }}</a> |
+                      <form action="{{ route('light_novels.destroy', $n->id) }}" method="POST" style="display:inline">
                           @csrf
                           @method('DELETE')
-                          <button type="submit" 
-                                  style="background:none;border:none;color:#dc3545;cursor:pointer;padding:0;">
-                              Supprimer
+                          <button type="submit" style="background:none;border:none;color:#dc3545;cursor:pointer;padding:0;">
+                              {{ __('property.delete') }}
                           </button>
                       </form>
                   </td>
@@ -88,7 +75,7 @@
 <script>
 $(function() {
   $("#searchNovel").autocomplete({
-    source: "{{ route('light_novels.autocomplete') }}", 
+    source: "{{ route('light_novels.autocomplete') }}",
     minLength: 1,
     select: function(event, ui) {
       window.location.href = "/light_novels/" + ui.item.id;
