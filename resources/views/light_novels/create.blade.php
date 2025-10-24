@@ -48,10 +48,11 @@
         <textarea id="Contenu" name="Contenu" rows="8">{{ old('Contenu') }}</textarea>
     </div>
 
-    <div style="margin-top:0.6rem;">
-        <label for="photo">Photo</label><br>
-        <input type="file" id="photo" name="photo" accept="image/*">
-    </div>
+<div>
+  <label for="photo">Photo</label><br>
+  <input type="file" id="photo" name="photo" accept="image/*">
+</div>
+
 
     <div style="margin-top:0.8rem;">
         <button type="submit">Créer</button>

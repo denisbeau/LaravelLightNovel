@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 Route::resource('light_novels', LightNovelController::class);
 Route::resource('commentaires', CommentaireController::class);
+Route::get('/users/autocomplete', [UserController::class, 'autocomplete'])->name('users.autocomplete');
