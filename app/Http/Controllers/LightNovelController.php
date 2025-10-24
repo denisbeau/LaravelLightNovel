@@ -63,18 +63,33 @@ class LightNovelController extends Controller
     /**
      * Affiche un light novel spécifique.
      */
-    public function show($id)
-    {
-        $lightNovel = LightNovel::find($id);
+public function show($id)
+{
+    // Récupérer le light novel demandé
+    $lightNovel = \DB::table('light_novels')
+        ->where('light_novels.id', $id)
+        ->first();
 
-        if (!$lightNovel) {
-            return redirect()
-                ->route('light_novels.index')
-                ->with('error', 'Light novel introuvable.');
-        }
-
-        return view('light_novels.show', compact('lightNovel'));
+    if (!$lightNovel) {
+        return redirect()->route('light_novels.index')->with('error', 'Light novel introuvable.');
     }
+
+    // Récupérer les commentaires liés avec INNER JOIN sur la table users
+    $commentaires = \DB::table('commentaires')
+        ->join('users', 'commentaires.user_id', '=', 'users.id')
+        ->where('commentaires.light_novel_id', $id)
+        ->select(
+            'commentaires.id',                // 🔹 On ajoute l’ID pour pouvoir supprimer
+            'commentaires.texte',
+            'users.name as auteur_commentaire'
+        )
+        ->get();
+
+    // Retourner la vue
+    return view('light_novels.show', compact('lightNovel', 'commentaires'));
+}
+
+
 
     /**
      * Affiche le formulaire de modification.
@@ -158,27 +173,29 @@ class LightNovelController extends Controller
     /**
      * Fonction d’autocomplétion (recherche Ajax).
      */
-    public function autocomplete(Request $request)
-    {
-        $term = $request->get('term', '');
-        $results = [];
+public function autocomplete(Request $request)
+{
+    $term = $request->get('term', '');
+    $results = [];
 
-        if ($term !== '') {
-            $items = LightNovel::where('titre', 'LIKE', '%' . $term . '%')
-                ->orderBy('titre')
-                ->limit(10)
-                ->get();
+    if ($term !== '') {
+        $items = \App\Models\LightNovel::where('titre', 'LIKE', '%' . $term . '%')
+            ->orWhere('auteur', 'LIKE', '%' . $term . '%')
+            ->orderBy('titre')
+            ->limit(10)
+            ->get();
 
-            foreach ($items as $item) {
-                $results[] = [
-                    'id' => $item->id,
-                    'label' => $item->titre,
-                    'value' => $item->titre,
-                ];
-            }
+        foreach ($items as $item) {
+            $results[] = [
+                'id' => $item->id,
+                'label' => $item->titre . ' — ' . $item->auteur,
+                'value' => $item->titre,
+            ];
         }
-
-        // Retourne les résultats sous forme JSON
-        return response()->json($results);
     }
+
+    return response()->json($results);
+}
+
+
 }

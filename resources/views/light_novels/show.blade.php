@@ -10,29 +10,38 @@
     <p><strong>Chapitres :</strong> {{ $lightNovel->chapitres }}</p>
     <hr>
     <div>{!! nl2br(e($lightNovel->Contenu)) !!}</div>
+
+    @if(!empty($lightNovel->photo))
+        <div style="margin-top:1rem;">
+            <img src="{{ asset('images/'.$lightNovel->photo) }}" 
+                 alt="Image du light novel" 
+                 width="200" 
+                 style="border-radius:8px;">
+        </div>
+    @endif
 </article>
 
 <hr>
-<h2>Commentaires</h2>
+<h2>Commentaires </h2>
 
-{{-- Afficher les commentaires --}}
-@if($lightNovel->commentaires->isEmpty())
+@if($commentaires->isEmpty())
     <p>Aucun commentaire pour l'instant.</p>
 @else
     <ul>
-        @foreach($lightNovel->commentaires as $comment)
+        @foreach($commentaires as $comment)
             <li style="margin-bottom:1rem;">
-                <strong>
-                    {{ $comment->user->name ?? 'Utilisateur inconnu' }}
-                </strong>
+                <strong>{{ $comment->auteur_commentaire ?? 'Utilisateur inconnu' }}</strong>
                 <p>{{ $comment->texte }}</p>
 
-                {{-- Bouton de suppression avec confirmation --}}
-                <form action="{{ route('commentaires.destroy', $comment->id) }}" method="POST"
+                <form action="{{ route('commentaires.destroy', $comment->id) }}" 
+                      method="POST" 
                       onsubmit="return confirm('Supprimer ce commentaire ?');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" style="background:none;color:red;border:none;cursor:pointer;">Supprimer</button>
+                    <button type="submit" 
+                            style="background:none;color:red;border:none;cursor:pointer;">
+                        Supprimer
+                    </button>
                 </form>
             </li>
         @endforeach
@@ -41,12 +50,11 @@
 
 <hr>
 
-{{-- Formulaire d’ajout de commentaire --}}
 <h3>Ajouter un commentaire</h3>
 <form action="{{ route('commentaires.store') }}" method="POST">
     @csrf
     <input type="hidden" name="light_novel_id" value="{{ $lightNovel->id }}">
-    <input type="hidden" name="user_id" value="1"> {{-- fixe pour dev --}}
+    <input type="hidden" name="user_id" value="1"> {{-- fixe pour développement --}}
 
     <textarea name="texte" rows="3" style="width:100%;"></textarea><br>
     <button type="submit">Publier</button>

@@ -5,10 +5,9 @@
 @section('content')
 <h1>Liste des Light Novels</h1>
 
-{{-- 🔍 Barre de recherche par utilisateur (autocomplétion) --}}
 <div style="margin-bottom: 1rem;">
-  <input type="text" id="searchUser" placeholder="Rechercher un utilisateur..." 
-         style="padding:0.5rem;width:300px;border:1px solid #ccc;border-radius:5px;">
+  <input type="text" id="searchNovel" placeholder="Rechercher un titre ou un auteur..." 
+         style="padding:0.5rem;width:320px;border:1px solid #ccc;border-radius:5px;">
 </div>
 
 @php
@@ -19,7 +18,6 @@
   <p>Aucun light novel trouvé.</p>
   <p><a href="{{ route('light_novels.create') }}">Ajouter un nouveau light novel</a></p>
 @else
-  {{-- 🎨 Tableau stylisé --}}
   <table style="
       width:100%;
       border-collapse:collapse;
@@ -53,7 +51,6 @@
                   <td style="padding:10px;">{{ $n->chapitres }}</td>
                   <td style="padding:10px;">{{ \Illuminate\Support\Str::limit($n->Contenu, 80) }}</td>
 
-                  {{-- 🖼️ Affichage de la photo --}}
                   <td style="padding:10px;">
                       @if($n->photo)
                           <img src="{{ asset('images/'.$n->photo) }}" 
@@ -84,18 +81,17 @@
   </table>
 @endif
 
-{{-- Script pour l’autocomplétion --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 <script>
 $(function() {
-  $("#searchUser").autocomplete({
-    source: "{{ route('users.autocomplete') }}",
+  $("#searchNovel").autocomplete({
+    source: "{{ route('light_novels.autocomplete') }}", 
     minLength: 1,
     select: function(event, ui) {
-      window.location.href = "/users/" + ui.item.id;
+      window.location.href = "/light_novels/" + ui.item.id;
     }
   });
 });
