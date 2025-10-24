@@ -8,23 +8,24 @@ use App\Models\LightNovel;
 class LightNovelController extends Controller
 {
     // Liste simple (index)
-    public function index()
-    {
-        $lightNovels = LightNovel::orderBy('title')->get();
-        return view('light_novels.index', compact('lightNovels'));
-    }
+public function index()
+{
+    $lightNovels = LightNovel::orderBy('titre')->get();
+    return view('light_novels.index', compact('lightNovels'));
+}
+
 
     // Affichage d'un élément (show)
-    public function show($id)
-    {
-        $lightNovel = LightNovel::find($id);
+public function show($id)
+{
+    $lightNovel = LightNovel::with('commentaires.user')->find($id);
 
-        if (!$lightNovel) {
-            return redirect()->route('light_novels.index')->with('error', 'Light novel introuvable.');
-        }
-
-        return view('light_novels.show', compact('lightNovel'));
+    if (!$lightNovel) {
+        return redirect()->route('light_novels.index')->with('error', 'Light novel introuvable.');
     }
+
+    return view('light_novels.show', compact('lightNovel'));
+}
 
     // Méthode autocomplete
     public function autocomplete(Request $request)

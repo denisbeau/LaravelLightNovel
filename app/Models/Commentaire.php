@@ -11,8 +11,8 @@ class Commentaire extends Model
 
     // La table 'commentaires' suit la convention, donc pas besoin de protected $table.
     protected $fillable = [
-        'Light_Novel_id',
-        'users_id',
+        'light_novel_id',
+        'user_id',
         'texte',
         'efface',
     ];
@@ -33,4 +33,5 @@ class Commentaire extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'users_id', 'id');
     }
+
 }
