@@ -18,7 +18,7 @@ Route::get('/light_novels/autocomplete', [LightNovelController::class, 'autocomp
 // Route::get('/articles/autocomplete', [ArticleController::class, 'autocomplete'])->name('articles.autocomplete');
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/light_novels');
 });
 
 Route::resource('light_novels', LightNovelController::class);
@@ -43,3 +43,7 @@ Route::post('/email/verification-notification', function (Request $request): Red
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');

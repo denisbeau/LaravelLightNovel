@@ -5,11 +5,6 @@
 @section('content')
 <h1>{{ __('property.list_title') }}</h1>
 
-<div style="margin-bottom: 1rem;">
-  <input type="text" id="searchNovel" placeholder="{{ __('property.search_placeholder') }}" 
-         style="padding:0.5rem;width:320px;border:1px solid #ccc;border-radius:5px;">
-</div>
-
 @php
   $list = $items ?? $novels ?? $lightNovels ?? collect();
 @endphp
