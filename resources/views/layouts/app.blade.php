@@ -1,15 +1,24 @@
 <!doctype html>
-<html lang="fr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>@yield('title', 'LightNovels')</title>
 
-    <!-- simple CSS inline so the layout works without external assets -->
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>@yield('title', config('app.name', 'LightNovels'))</title>
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+
+    <!-- Styles (your custom inline CSS) -->
     <style>
         body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; background:#fafafa; color:#222; }
         header { background:#2b2f3a; color:#fff; padding:1rem; }
-        header .container { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+        header .container { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+        nav { display:flex; align-items:center; flex-wrap:wrap; gap:0.5rem; }
         nav a { color:#dfe6f0; margin-right:0.8rem; text-decoration:none; }
         nav a.btn { background:#fff; color:#2b2f3a; padding:0.3rem 0.6rem; border-radius:4px; text-decoration:none; }
         main { max-width:1100px; margin:1.2rem auto; padding:1rem; background:#fff; box-shadow:0 0 6px rgba(0,0,0,0.04); border-radius:6px; }
@@ -20,27 +29,26 @@
         .flash { padding:0.6rem; background:#e6ffed; border:1px solid #b7f0c9; margin-bottom:1rem; border-radius:4px; color:#064b11; }
         .error { color:#a00; margin-top:0.3rem; font-size:0.95rem; }
         .small { font-size:0.9rem; color:#666; }
-        /* petit style pour l'input de recherche dans le header */
         .search-input { padding:0.35rem 0.5rem; border-radius:4px; border:1px solid #ddd; width:260px; }
     </style>
 
-    <!-- jQuery UI CSS (CDN pour tester) -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
-    <!-- CSRF pour les requêtes AJAX -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     @stack('head')
 </head>
 <body>
     <header>
         <div class="container">
-            <div style="display:flex; align-items:center; gap:1rem;">
-                <strong><a href="{{ url('/') }}" style="color:inherit; text-decoration:none;">Bibliothèque Light Novels</a></strong>
+            <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+                <strong>
+                    <a href="{{ url('/') }}" style="color:inherit; text-decoration:none;">Bibliothèque Light Novels</a>
+                </strong>
 
-                <!-- Champ de recherche global -->
                 <div>
-                    <input id="lightnovel-search" class="search-input" type="text" placeholder="Rechercher un light novel..." autocomplete="off" />
+                    <input id="lightnovel-search" class="search-input" type="text"
+                           placeholder="Rechercher un light novel..." autocomplete="off" />
                     <input type="hidden" id="lightnovel-id" name="lightnovel_id" />
                 </div>
             </div>
@@ -49,6 +57,24 @@
                 <a href="{{ route('light_novels.index') }}">Accueil</a>
                 <a href="{{ route('light_novels.create') }}" class="btn">Ajouter</a>
                 <a href="{{ url('/about') }}">À propos</a>
+
+                @guest
+                    @if (Route::has('login'))
+                        <a href="{{ route('login') }}">Connexion</a>
+                    @endif
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}">Inscription</a>
+                    @endif
+                @else
+                    <span style="color:#dfe6f0;">{{ Auth::user()->name }}</span>
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Déconnexion
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+                        @csrf
+                    </form>
+                @endguest
             </nav>
         </div>
     </header>
@@ -57,52 +83,41 @@
         @if(session('message'))
             <div class="flash">{{ session('message') }}</div>
         @endif
-
         @yield('content')
     </main>
 
-    <!-- jQuery & jQuery UI (CDN pour tester) -->
+    <!-- jQuery & jQuery UI -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
     <script>
-    // Setup AJAX CSRF token (utile si tu passes en POST plus tard)
+    // CSRF setup for AJAX
     $.ajaxSetup({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
     });
 
+    // Autocomplete for LightNovels
     $(function() {
         $("#lightnovel-search").autocomplete({
             source: function(request, response) {
                 $.ajax({
                     url: "{{ route('light_novels.autocomplete') }}",
                     dataType: "json",
-                    data: {
-                        term: request.term
-                    },
-                    success: function(data) {
-                        response(data);
-                    },
-                    error: function() {
-                        response([]);
-                    }
+                    data: { term: request.term },
+                    success: function(data) { response(data); },
+                    error: function() { response([]); }
                 });
             },
             minLength: 2,
             delay: 200,
             select: function(event, ui) {
-                // ui.item: { id, label, value }
                 $('#lightnovel-id').val(ui.item.id);
-                // exemple : rediriger vers la fiche
-                // window.location.href = '/light_novels/' + ui.item.id;
             },
             focus: function(event, ui) {
-                // empêche de remplacer l'input pendant le focus
                 event.preventDefault();
                 $("#lightnovel-search").val(ui.item.label);
             }
         }).autocomplete("instance")._renderItem = function(ul, item) {
-            // personnalisation de l'affichage dans la liste (optionnel)
             return $("<li>")
                 .append("<div><strong>"+item.label+"</strong><br><span class='small'>ID: "+item.id+"</span></div>")
                 .appendTo(ul);
