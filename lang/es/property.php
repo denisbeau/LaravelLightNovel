@@ -1,0 +1,37 @@
+<?php
+return [
+    'site_title' => 'Biblioteca de Light Novels',
+    'home' => 'Inicio',
+    'add' => 'Añadir',
+    'about' => 'Acerca de',
+    'search_placeholder' => 'Buscar un light novel...',
+    'create_title' => 'Crear un light novel',
+    'edit_title' => 'Editar light novel',
+    'list_title' => 'Lista de light novels',
+
+    'title' => 'Título',
+    'author' => 'Autor',
+    'status' => 'Estado',
+    'content' => 'Contenido',
+    'photo' => 'Foto',
+
+    'create_button' => 'Crear',
+    'save_button' => 'Guardar',
+    'cancel' => 'Cancelar',
+    'error' => 'Hay errores:',
+    'no_result' => 'No se encontraron resultados.',
+    'add_new' => 'Agregar nuevo',
+    'no' => 'No',
+    'actions' => 'Acciones',
+    'view' => 'Ver',
+    'edit' => 'Editar',
+    'delete' => 'Eliminar',
+
+    'comments' => 'Comentarios',
+    'no_comments' => 'Aún no hay comentarios.',
+    'add_comment' => 'Agregar un comentario',
+    'publish' => 'Publicar',
+    'delete_comment' => '¿Eliminar este comentario?',
+    'unknown_user' => 'Usuario desconocido',
+    'back_to_list' => 'Volver a la lista',
+];

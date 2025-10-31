@@ -1,22 +1,14 @@
 <?php
 return [
-    // General
-    'create' => 'Create',
-    'edit' => 'Edit',
-    'save' => 'Save',
-    'cancel' => 'Cancel',
-    'delete' => 'Delete',
-    'view' => 'View',
-    'back_to_list' => 'Back to list',
-    'no_result' => 'No light novels found.',
-    'add_new' => 'Add a new light novel',
-    'error' => 'Error:',
-    'success' => 'Success',
-    'actions' => 'Actions',
-    'yes' => 'Yes',
-    'no' => 'No',
+    'site_title' => 'Light Novels Library',
+    'home' => 'Home',
+    'add' => 'Add',
+    'about' => 'About',
+    'search_placeholder' => 'Search a light novel...',
+    'create_title' => 'Create a light novel',
+    'edit_title' => 'Edit light novel',
+    'list_title' => 'Light novels list',
 
-    // Fields
     'title' => 'Title',
     'author' => 'Author',
     'status' => 'Status',
@@ -24,23 +16,24 @@ return [
     'content' => 'Content',
     'photo' => 'Photo',
 
-    // Pages
-    'create_title' => 'Create a Light Novel',
-    'edit_title' => 'Edit Light Novel',
-    'list_title' => 'List of Light Novels',
-    'show_title' => 'Light Novel Details',
+    'create_button' => 'Create',
+    'save_button' => 'Save',
+    'cancel' => 'Cancel',
 
-    // Comments
+    'error' => 'There are errors:',
+    'no_result' => 'No results found.',
+    'add_new' => 'Add new',
+    'no' => 'No',
+    'actions' => 'Actions',
+    'view' => 'View',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+
     'comments' => 'Comments',
     'no_comments' => 'No comments yet.',
     'add_comment' => 'Add a comment',
     'publish' => 'Publish',
     'delete_comment' => 'Delete this comment?',
-
-    // Search
-    'search_placeholder' => 'Search by title or author...',
-
-    // Buttons
-    'create_button' => 'Create',
-    'save_button' => 'Save',
+    'unknown_user' => 'Unknown user',
+    'back_to_list' => 'Back to list'
 ];

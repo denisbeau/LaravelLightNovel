@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "72c796bcad93055a3a9b1a2121b54d94",
+    "content-hash": "f3124aa4ef2187fd35eeb4c58df2c6ec",
     "packages": [
         {
             "name": "brick/math",
@@ -720,6 +720,36 @@
                 }
             ],
             "time": "2025-03-06T22:45:56+00:00"
+        },
+        {
+            "name": "frameworks/jquery",
+            "version": "2.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/frameworks/jquery.git",
+                "reference": "ef9c4fe9fcb23914bba6ec6d32c556e4a38a0fd9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/frameworks/jquery/zipball/ef9c4fe9fcb23914bba6ec6d32c556e4a38a0fd9",
+                "reference": "ef9c4fe9fcb23914bba6ec6d32c556e4a38a0fd9",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "jQuery JavaScript Library",
+            "homepage": "http://jquery.com",
+            "support": {
+                "forum": "http://forum.jquery.com",
+                "irc": "irc://irc.freenode.org/jquery",
+                "issues": "http://bugs.jquery.com",
+                "source": "https://github.com/jquery/jquery",
+                "wiki": "http://docs.jquery.com/"
+            },
+            "time": "2015-10-09T00:55:51+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -2667,6 +2697,72 @@
                 }
             ],
             "time": "2024-11-21T10:36:35+00:00"
+        },
+        {
+            "name": "phpmv/php-mv-ui",
+            "version": "2.4.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpMv/phpMv-UI.git",
+                "reference": "bfcee26f8d435541b45bcff9bf49ff07aa40af65"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpMv/phpMv-UI/zipball/bfcee26f8d435541b45bcff9bf49ff07aa40af65",
+                "reference": "bfcee26f8d435541b45bcff9bf49ff07aa40af65",
+                "shasum": ""
+            },
+            "require": {
+                "frameworks/jquery": "~2.1",
+                "php": ">7.0"
+            },
+            "suggest": {
+                "components/jqueryui": "~1.11",
+                "fomantic/ui": "~2.7.8",
+                "twitter/bootstrap": "~3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ajax\\": "Ajax/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jean-Christophe HERON",
+                    "email": "myaddressmail@gmail.com",
+                    "role": "Lead developer"
+                }
+            ],
+            "description": "A JQuery and UI library for php and php MVC frameworks",
+            "keywords": [
+                "codeigniter",
+                "framework",
+                "jQuery UI",
+                "jquery",
+                "laravel",
+                "phalcon",
+                "php",
+                "semantic ui",
+                "symfony",
+                "twitter bootstrap",
+                "ubiquity",
+                "yii"
+            ],
+            "support": {
+                "issues": "https://github.com/phpMv/phpMv-UI/issues",
+                "source": "https://github.com/phpMv/phpMv-UI/tree/2.4.16"
+            },
+            "time": "2024-09-19T23:25:23+00:00"
         },
         {
             "name": "phpoption/phpoption",

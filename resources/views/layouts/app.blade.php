@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    <!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap 5 JS Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -75,7 +80,36 @@
                         @csrf
                     </form>
                 @endguest
+
+                <!-- Language dropdown -->
+                <ul class="navbar-nav list-unstyled" style="display:inline-block; margin-left:1rem;">
+                    @php $locale = session('locale', app()->getLocale()); @endphp
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ asset('images/flag/' . $locale . '.png') }}" width="25" class="me-1">
+                            {{ strtoupper($locale) }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/lang/fr">
+                                    <img src="{{ asset('images/flag/fr.png') }}" width="25" class="me-2"> Français
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/lang/en">
+                                    <img src="{{ asset('images/flag/en.png') }}" width="25" class="me-2"> English
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/lang/es">
+                                    <img src="{{ asset('images/flag/es.png') }}" width="25" class="me-2"> Español
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </nav>
+
         </div>
     </header>
 
