@@ -23,8 +23,8 @@ class CommentaireSeeder extends Seeder
         // créer des commentaires aléatoires
         foreach (range(1, 20) as $i) {
             Commentaire::create([
-                'Light_Novel_id' => $this->fakerChoice($lightNovelIds),
-                'users_id' => $this->fakerChoice($userIds),
+                'light_novel_id' => $this->fakerChoice($lightNovelIds),
+                'user_id' => $this->fakerChoice($userIds),
                 'texte' => 'Commentaire exemple ' . $i,
                 'efface' => 0,
             ]);
@@ -33,14 +33,14 @@ class CommentaireSeeder extends Seeder
         // quelques commentaires provenant de ton dump
         Commentaire::insert([
             [
-                'Light_Novel_id' => 2,
-                'users_id' => 1,
+                'light_novel_id' => 2,
+                'user_id' => 1,
                 'texte' => 'J’adore l’ambiance. On se croirait dans un vrai animé."',
                 'efface' => 0,
             ],
             [
-                'Light_Novel_id' => 2,
-                'users_id' => 3,
+                'light_novel_id' => 2,
+                'user_id' => 3,
                 'texte' => 'L’univers est super immersif, hâte de lire le prochain chapitre !',
                 'efface' => 0,
             ],
