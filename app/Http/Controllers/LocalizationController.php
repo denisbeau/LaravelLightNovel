@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\LocalizationController;
+use Illuminate\Support\Facades\App;
 
 
 class LocalizationController extends Controller

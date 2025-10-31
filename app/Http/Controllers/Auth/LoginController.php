@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -25,7 +27,25 @@ class LoginController extends Controller
      *
      * @var string
      */
+    // Default redirect will be decided dynamically in redirectTo()
     protected $redirectTo = '/home';
+
+    /**
+     * Get the post-login redirect path depending on user role.
+     *
+     * @return string
+     */
+    protected function redirectTo()
+    {
+        $user = Auth::user();
+        if ($user && $user->role === User::ADMIN_ROLE) {
+            // Redirect admins to admin dashboard
+            return route('admin.dashboard');
+        }
+
+        // Regular users
+        return '/home';
+    }
 
     /**
      * Create a new controller instance.

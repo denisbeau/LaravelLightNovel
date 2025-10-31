@@ -7,6 +7,11 @@ use App\Models\LightNovel;
 
 class LightNovelController extends Controller
 {
+    public function __construct()
+    {
+        // Only allow guests to view index/show/autocomplete
+        $this->middleware('auth')->except(['index', 'show', 'autocomplete']);
+    }
     /**
      * Affiche la liste de tous les light novels.
      */

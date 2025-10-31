@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\LocalizationController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -22,6 +23,11 @@ Route::get('/', function () {
 });
 
 Route::get('/lang/{locale}', [LocalizationController::class, 'index']);
+
+// Admin area - protected by auth + administrateur middleware
+Route::middleware(['auth', 'administrateur'])->prefix('admin')->group(function () {
+    Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
+});
 
 Route::resource('light_novels', LightNovelController::class);
 Route::resource('commentaires', CommentaireController::class);

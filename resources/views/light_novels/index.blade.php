@@ -11,7 +11,9 @@
 
 @if($list->isEmpty())
   <p>{{ __('property.no_result') }}</p>
-  <p><a href="{{ route('light_novels.create') }}">{{ __('property.add_new') }}</a></p>
+  @auth
+    <p><a href="{{ route('light_novels.create') }}">{{ __('property.add_new') }}</a></p>
+  @endauth
 @else
   <table style="width:100%;border-collapse:collapse;font-family:'Segoe UI',sans-serif;border:1px solid #ddd;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
       <thead style="background:#f8f9fa;">
@@ -46,17 +48,19 @@
                       @endif
                   </td>
 
-                  <td style="padding:10px;">
-                      <a href="{{ route('light_novels.show', $n->id) }}">{{ __('property.view') }}</a> |
-                      <a href="{{ route('light_novels.edit', $n->id) }}">{{ __('property.edit') }}</a> |
-                      <form action="{{ route('light_novels.destroy', $n->id) }}" method="POST" style="display:inline">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit" style="background:none;border:none;color:#dc3545;cursor:pointer;padding:0;">
-                              {{ __('property.delete') }}
-                          </button>
-                      </form>
-                  </td>
+          <td style="padding:10px;">
+            <a href="{{ route('light_novels.show', $n->id) }}">{{ __('property.view') }}</a>
+            @auth
+            | <a href="{{ route('light_novels.edit', $n->id) }}">{{ __('property.edit') }}</a>
+            | <form action="{{ route('light_novels.destroy', $n->id) }}" method="POST" style="display:inline">
+              @csrf
+              @method('DELETE')
+              <button type="submit" style="background:none;border:none;color:#dc3545;cursor:pointer;padding:0;">
+                {{ __('property.delete') }}
+              </button>
+              </form>
+            @endauth
+          </td>
               </tr>
           @endforeach
       </tbody>

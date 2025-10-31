@@ -7,6 +7,11 @@ use App\Models\Commentaire;
 
 class CommentaireController extends Controller
 {
+    public function __construct()
+    {
+        // Only authenticated users can post or delete comments
+        $this->middleware('auth')->only(['store', 'destroy']);
+    }
     public function index()
     {
         // (optional) For testing only:
@@ -18,9 +23,11 @@ class CommentaireController extends Controller
     {
         $validated = $request->validate([
             'light_novel_id' => 'required|exists:light_novels,id',
-            'user_id' => 'required|exists:users,id',
             'texte' => 'required|string|max:1000',
         ]);
+
+        // Associate the comment with the authenticated user
+        $validated['user_id'] = \Auth::id();
 
         Commentaire::create($validated);
 
